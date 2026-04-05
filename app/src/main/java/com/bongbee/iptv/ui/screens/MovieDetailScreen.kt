@@ -350,6 +350,7 @@ fun MovieDetailScreen(
 
                 // ── Watch Now + Watchlist Action Buttons ──────────────────
                 val inWatchlist = viewModel.isInWatchlist(currentMovieId, currentMediaType)
+                val naString = stringResource(R.string.na)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -372,7 +373,7 @@ fun MovieDetailScreen(
                                 id = currentMovieId,
                                 title = title,
                                 posterPath = posterPath.takeIf { it.isNotEmpty() },
-                                releaseDate = year.takeIf { it != stringResource(R.string.na) },
+                                releaseDate = year.takeIf { it != naString },
                                 mediaType = currentMediaType
                             )
                             viewModel.toggleWatchlist(wMovie)
