@@ -36,3 +36,11 @@ data class ApiGuide(
     val site_name: String,
     val lang: String
 )
+
+enum class StreamStatus {
+    UNKNOWN,
+    CHECKING,
+    LIVE,
+    ERROR
+}
+

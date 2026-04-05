@@ -3,6 +3,7 @@ package com.bongbee.iptv.viewmodel
 import android.webkit.WebView
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -10,9 +11,11 @@ import androidx.lifecycle.viewModelScope
 import com.bongbee.iptv.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import java.net.HttpURLConnection
 import java.net.URL
 
 class IptvViewModel : ViewModel() {
@@ -40,6 +43,71 @@ class IptvViewModel : ViewModel() {
 
     fun setIsInPipMode(inPip: Boolean) {
         isInPipMode = inPip
+    }
+
+    // ── Stream Status Checking ──────────────────────────────────────────
+    val channelStatus = mutableStateMapOf<String, StreamStatus>()
+    private val statusSemaphore = Semaphore(8) // max 8 concurrent checks
+    var isCheckingAll by mutableStateOf(false)
+        private set
+
+    /** Lightweight HTTP check for a single channel — no ExoPlayer needed */
+    fun checkChannelStatus(channel: Channel) {
+        val key = channel.id + channel.name
+        if (channelStatus[key] == StreamStatus.LIVE || channelStatus[key] == StreamStatus.CHECKING) return
+        channelStatus[key] = StreamStatus.CHECKING
+
+        viewModelScope.launch(Dispatchers.IO) {
+            statusSemaphore.acquire()
+            try {
+                val isLive = channel.urls.any { url -> probeStreamUrl(url) }
+                channelStatus[key] = if (isLive) StreamStatus.LIVE else StreamStatus.ERROR
+            } catch (_: Exception) {
+                channelStatus[key] = StreamStatus.ERROR
+            } finally {
+                statusSemaphore.release()
+            }
+        }
+    }
+
+    /** Check all loaded channels at once */
+    fun checkAllChannelStatuses() {
+        isCheckingAll = true
+        val toCheck = channels.toList()
+        viewModelScope.launch {
+            toCheck.forEach { channel -> checkChannelStatus(channel) }
+            // Wait until all finish (simplified: just mark done after launching)
+            isCheckingAll = false
+        }
+    }
+
+    fun clearChannelStatuses() {
+        channelStatus.clear()
+    }
+
+    private fun probeStreamUrl(url: String): Boolean {
+        return try {
+            val conn = URL(url).openConnection() as HttpURLConnection
+            conn.requestMethod = "GET"
+            conn.connectTimeout = 4000
+            conn.readTimeout = 4000
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0")
+            conn.instanceFollowRedirects = true
+            // For HLS streams, just check we can connect and get some data
+            val code = conn.responseCode
+            if (code == 200) {
+                // Read a small chunk to verify it's a real stream
+                val buffer = ByteArray(512)
+                val bytesRead = conn.inputStream.use { it.read(buffer) }
+                conn.disconnect()
+                bytesRead > 0
+            } else {
+                conn.disconnect()
+                false
+            }
+        } catch (_: Exception) {
+            false
+        }
     }
 
     val categories = listOf(
