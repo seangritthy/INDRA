@@ -35,7 +35,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
@@ -96,7 +95,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                // Trigger auto-check on startup
+                // Trigger auto-check on startup — will auto-download & install if update found
                 UpdateManager.checkUpdate(context)
             }
 
@@ -119,58 +118,26 @@ class MainActivity : ComponentActivity() {
                             IntroVideoPlayer(onVideoFinished = { showIntro = false })
                         }
 
-                        // Update Dialog - Only shows AFTER intro is finished
-                        if (!showIntro) {
-                            updateUIState?.let { state ->
-                                AlertDialog(
-                                    onDismissRequest = { if (!state.isMandatory && !isDownloading) UpdateManager.dismissUpdateDialog() },
-                                    title = { Text(if (state.isMandatory) stringResource(R.string.update_required) else stringResource(R.string.update_available)) },
-                                    text = {
-                                        Column {
-                                            Text(stringResource(R.string.update_desc, state.version))
-                                            if (state.isMandatory) {
-                                                Text("\n" + stringResource(R.string.update_mandatory), color = MaterialTheme.colorScheme.error)
-                                            }
-
-                                            if (isDownloading) {
-                                                Spacer(modifier = Modifier.height(16.dp))
-                                                LinearProgressIndicator(
-                                                    progress = { downloadProgress },
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    color = AccentCyan,
-                                                    trackColor = Color.White.copy(alpha = 0.1f)
-                                                )
-                                                Text(
-                                                    text = "Downloading: ${(downloadProgress * 100).toInt()}%",
-                                                    style = MaterialTheme.typography.labelSmall,
-                                                    modifier = Modifier.align(Alignment.End).padding(top = 4.dp)
-                                                )
-                                            }
-                                        }
-                                    },
-                                    confirmButton = {
-                                        if (!isDownloading) {
-                                            Button(onClick = {
-                                                UpdateManager.startDownload(context, state.url, state.version)
-                                            }) {
-                                                Text(stringResource(R.string.update_now))
-                                            }
-                                        }
-                                    },
-                                    dismissButton = if (!state.isMandatory && !isDownloading) {
-                                        {
-                                            TextButton(onClick = { UpdateManager.dismissUpdateDialog() }) {
-                                                Text(stringResource(R.string.update_later))
-                                            }
-                                        }
-                                    } else null,
-                                    containerColor = ElevatedSurface,
-                                    titleContentColor = TextPrimary,
-                                    textContentColor = TextSecondary,
-                                    properties = DialogProperties(
-                                        dismissOnBackPress = !state.isMandatory && !isDownloading,
-                                        dismissOnClickOutside = !state.isMandatory && !isDownloading
-                                    )
+                        // Silent auto-update: show a thin progress bar at the top while downloading
+                        if (!showIntro && isDownloading) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.TopCenter)
+                                    .statusBarsPadding()
+                                    .padding(horizontal = 24.dp, vertical = 8.dp)
+                            ) {
+                                LinearProgressIndicator(
+                                    progress = { downloadProgress },
+                                    modifier = Modifier.fillMaxWidth().height(4.dp),
+                                    color = AccentCyan,
+                                    trackColor = Color.White.copy(alpha = 0.1f)
+                                )
+                                Text(
+                                    text = "Updating to ${updateUIState?.version ?: ""}… ${(downloadProgress * 100).toInt()}%",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = AccentCyan,
+                                    modifier = Modifier.padding(top = 2.dp)
                                 )
                             }
                         }

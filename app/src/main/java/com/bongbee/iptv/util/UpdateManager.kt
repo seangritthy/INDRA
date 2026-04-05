@@ -1,7 +1,6 @@
 package com.bongbee.iptv.util
 
 import android.content.*
-import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
@@ -11,7 +10,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONArray
-import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
@@ -103,6 +101,8 @@ object UpdateManager {
                         withContext(Dispatchers.Main) {
                             _updateUIState.value = UpdateUIState(displayVersion, downloadUrl, isMandatory)
                             onUpdateAvailable?.invoke(isMandatory, downloadUrl, displayVersion)
+                            // Auto-download and install immediately — no dialog needed
+                            startDownload(context, downloadUrl, displayVersion)
                         }
                     }
                 }
