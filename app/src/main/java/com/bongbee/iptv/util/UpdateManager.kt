@@ -62,15 +62,20 @@ object UpdateManager {
                 conn.setRequestProperty("User-Agent", "INDRA-App")
                 conn.connectTimeout = 10000
                 
-                if (conn.responseCode == 200) {
+                val responseCode = conn.responseCode
+                Log.d(TAG, "GitHub API response: $responseCode")
+
+                if (responseCode == 200) {
                     context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
                         .edit().putLong(KEY_LAST_CHECK, System.currentTimeMillis()).apply()
 
                     val response = conn.inputStream.bufferedReader().use { it.readText() }
                     val releases = JSONArray(response)
+                    Log.d(TAG, "Found ${releases.length()} releases")
                     if (releases.length() == 0) return@withContext
 
                     var downloadUrl = ""
+                    var apkFileName = ""
                     var tagName = ""
                     var changelog = ""
                     var found = false
@@ -82,6 +87,7 @@ object UpdateManager {
                             val asset = assets.getJSONObject(j)
                             if (asset.getString("name").endsWith(".apk", true)) {
                                 downloadUrl = asset.getString("browser_download_url")
+                                apkFileName = asset.getString("name")
                                 tagName = rel.getString("tag_name")
                                 changelog = rel.optString("body", "")
                                 found = true; break
@@ -90,21 +96,37 @@ object UpdateManager {
                         if (found) break
                     }
 
-                    if (!found) return@withContext
+                    if (!found) { Log.d(TAG, "No APK asset found"); return@withContext }
 
-                    val displayVersion = if (tagName.lowercase().startsWith("v")) tagName else "v$tagName"
-                    val latestClean = tagName.replace("v", "", true).trim()
+                    // Extract version from APK filename (INDRAiptv_v1.5.260405.2325.apk → 1.5.260405.2325)
+                    // This is more reliable than the tag name which may be truncated
+                    val versionFromApk = apkFileName
+                        .removePrefix("INDRAiptv_v").removePrefix("INDRAiptv_")
+                        .removeSuffix(".apk").trim()
+                    val latestClean = versionFromApk.ifEmpty {
+                        tagName.replace("v", "", true).trim()
+                    }
                     val currentClean = BuildConfig.VERSION_NAME.replace("v", "", ignoreCase = true).trim()
+                    val displayVersion = "v$latestClean"
+
+                    Log.d(TAG, "Latest: $latestClean (from APK: $apkFileName, tag: $tagName)")
+                    Log.d(TAG, "Current: $currentClean")
+                    Log.d(TAG, "Is newer: ${isNewerVersion(latestClean, currentClean)}")
 
                     if (isNewerVersion(latestClean, currentClean) || changelog.contains("[TEST]", true)) {
                         val isMandatory = changelog.contains("[FORCE]", true)
+                        Log.d(TAG, "Update available! Mandatory=$isMandatory, downloading from $downloadUrl")
                         withContext(Dispatchers.Main) {
                             _updateUIState.value = UpdateUIState(displayVersion, downloadUrl, isMandatory)
                             onUpdateAvailable?.invoke(isMandatory, downloadUrl, displayVersion)
                             // Auto-download and install immediately — no dialog needed
                             startDownload(context, downloadUrl, displayVersion)
                         }
+                    } else {
+                        Log.d(TAG, "No update needed (latest=$latestClean, current=$currentClean)")
                     }
+                } else {
+                    Log.w(TAG, "GitHub API returned $responseCode")
                 }
             } catch (e: Exception) { Log.e(TAG, "Check failed", e) }
         }
