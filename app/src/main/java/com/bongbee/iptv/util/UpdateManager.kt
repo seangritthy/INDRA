@@ -134,19 +134,34 @@ object UpdateManager {
 
         managerScope.launch(Dispatchers.IO) {
             try {
-                val url = URL(downloadUrl)
-                var connection = url.openConnection() as HttpURLConnection
-                connection.instanceFollowRedirects = true
-                connection.connectTimeout = 15000
-                connection.readTimeout = 15000
-                
-                var responseCode = connection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_MOVED_TEMP || responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == 307 || responseCode == 308) {
-                    val newUrl = connection.getHeaderField("Location")
-                    connection = URL(newUrl).openConnection() as HttpURLConnection
+                var currentUrl = downloadUrl
+                var connection: HttpURLConnection
+                var redirectCount = 0
+
+                // Manually follow redirects (GitHub uses multiple)
+                while (true) {
+                    connection = URL(currentUrl).openConnection() as HttpURLConnection
+                    connection.instanceFollowRedirects = false
+                    connection.setRequestProperty("User-Agent", "INDRA-App")
+                    connection.connectTimeout = 15000
+                    connection.readTimeout = 30000
+
+                    val responseCode = connection.responseCode
+                    if (responseCode in listOf(301, 302, 303, 307, 308)) {
+                        val newUrl = connection.getHeaderField("Location")
+                        connection.disconnect()
+                        if (newUrl == null || redirectCount++ > 5) throw Exception("Too many redirects")
+                        currentUrl = newUrl
+                    } else {
+                        break
+                    }
                 }
 
-                val fileSize = connection.contentLength.toLong()
+                if (connection.responseCode != 200) {
+                    throw Exception("HTTP ${connection.responseCode}")
+                }
+
+                val fileSize = connection.contentLengthLong
                 
                 connection.inputStream.use { input ->
                     FileOutputStream(destination).use { output ->

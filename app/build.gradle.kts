@@ -1,10 +1,17 @@
 import java.util.Date
 import java.text.SimpleDateFormat
+import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
+}
+
+val localProperties = Properties().apply {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) load(FileInputStream(localPropsFile))
 }
 
 android {
@@ -14,6 +21,15 @@ android {
     val date = Date()
     val formattedDate = SimpleDateFormat("yyMMdd.HHmm").format(date)
     val autoVersionCode = (date.time / 60000).toInt()
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("${rootProject.projectDir}/${localProperties["RELEASE_STORE_FILE"]}")
+            storePassword = localProperties["RELEASE_STORE_PASSWORD"] as String
+            keyAlias = localProperties["RELEASE_KEY_ALIAS"] as String
+            keyPassword = localProperties["RELEASE_KEY_PASSWORD"] as String
+        }
+    }
 
     defaultConfig {
         applicationId = "com.bongbee.iptv"
@@ -32,6 +48,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     
