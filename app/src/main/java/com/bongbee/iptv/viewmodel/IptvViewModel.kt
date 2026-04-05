@@ -132,18 +132,28 @@ class IptvViewModel : ViewModel() {
         "FreshNews" to "freshnew",
         "MekongNet" to "mekongnet",
         "WIKI TV" to "wikitv",
+        "WikiTV" to "wikitv",
         "CTV8 HD" to "ctv8",
         "CTV8" to "ctv8",
         "TV3" to "tv3",
+        "My TV" to "mytv",
         "MyTV" to "mytv",
         "Hang Meas HDTV" to "hangmeas",
         "Hang Meas" to "hangmeas",
+        "Rasmey Hang Meas" to "rhm",
         "CTN" to "ctn",
         "CNC" to "cnc",
         "PNN" to "pnn",
+        "SEATV" to "seatv",
         "SEA TV" to "seatv",
+        "Town TV" to "towntv",
+        "TownTV" to "towntv",
+        "NTV" to "ntv",
         "TV9" to "tv9",
         "Komsan TV" to "komsantv",
+        "Nice TV" to "nicetv",
+        "NiceTV" to "nicetv",
+        "EAC News" to "eacnews",
     )
 
     /**
@@ -520,6 +530,31 @@ class IptvViewModel : ViewModel() {
     var popularTvTotal by mutableIntStateOf(0)
     var topRatedTvTotal by mutableIntStateOf(0)
     var onTheAirTotal by mutableIntStateOf(0)
+
+    // ── Watchlist ───────────────────────────────────────────────────────
+    var watchlistMovies by mutableStateOf<List<Movie>>(emptyList())
+        private set
+
+    fun addToWatchlist(movie: Movie) {
+        if (!isInWatchlist(movie.id, movie.mediaType)) {
+            watchlistMovies = watchlistMovies + movie
+        }
+    }
+
+    fun removeFromWatchlist(movieId: Int, mediaType: String) {
+        watchlistMovies = watchlistMovies.filter { it.id != movieId || it.mediaType != mediaType }
+    }
+
+    fun isInWatchlist(movieId: Int, mediaType: String): Boolean =
+        watchlistMovies.any { it.id == movieId && it.mediaType == mediaType }
+
+    fun toggleWatchlist(movie: Movie) {
+        if (isInWatchlist(movie.id, movie.mediaType)) {
+            removeFromWatchlist(movie.id, movie.mediaType)
+        } else {
+            addToWatchlist(movie)
+        }
+    }
 
     // Additional Movie Categories
     var popularMovies by mutableStateOf<List<Movie>>(emptyList())

@@ -67,7 +67,7 @@ import java.net.URL
 fun MovieDetailScreen(
     movieId: Int,
     mediaType: String,
-    @Suppress("UNUSED_PARAMETER") viewModel: IptvViewModel,
+    viewModel: IptvViewModel,
     onBack: () -> Unit,
     onSeeMoreMovies: (String) -> Unit
 ) {
@@ -345,6 +345,55 @@ fun MovieDetailScreen(
                                 Text(" $runtime min", color = Color.White, style = MaterialTheme.typography.labelMedium)
                             }
                         }
+                    }
+                }
+
+                // ── Watch Now + Watchlist Action Buttons ──────────────────
+                val inWatchlist = viewModel.isInWatchlist(currentMovieId, currentMediaType)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Button(
+                        onClick = { /* video is already playing in the embedded player above */ },
+                        modifier = Modifier.weight(1f).height(48.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = AccentCyan)
+                    ) {
+                        Icon(Icons.Default.PlayArrow, contentDescription = null, tint = Color.Black, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(stringResource(R.string.watch_now), color = Color.Black, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+                    }
+                    OutlinedButton(
+                        onClick = {
+                            val wMovie = com.bongbee.iptv.model.Movie(
+                                id = currentMovieId,
+                                title = title,
+                                posterPath = posterPath.takeIf { it.isNotEmpty() },
+                                releaseDate = year.takeIf { it != stringResource(R.string.na) },
+                                mediaType = currentMediaType
+                            )
+                            viewModel.toggleWatchlist(wMovie)
+                        },
+                        modifier = Modifier.weight(1f).height(48.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        border = BorderStroke(1.dp, if (inWatchlist) AccentCyan else Color.White.copy(alpha = 0.3f))
+                    ) {
+                        Icon(
+                            if (inWatchlist) Icons.Default.BookmarkAdded else Icons.Default.BookmarkAdd,
+                            contentDescription = null,
+                            tint = if (inWatchlist) AccentCyan else TextPrimary,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            stringResource(R.string.watchlist),
+                            color = if (inWatchlist) AccentCyan else TextPrimary,
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.labelLarge
+                        )
                     }
                 }
 

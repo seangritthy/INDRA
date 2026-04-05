@@ -71,6 +71,9 @@ fun CategoryListScreen(
             .padding(bottom = 100.dp)
     ) {
         if (selectedTab == 0) {
+            // WATCHLIST SECTION — shown only when non-empty
+            WatchlistSection(viewModel, onMovieClick)
+
             // HERO SLIDESHOW
             if (categories.isNotEmpty()) {
                 val featured = categories.take(11)
@@ -185,6 +188,75 @@ fun OnTheAirSection(
         ) {
             items(viewModel.onTheAirTvShows) { movie ->
                 MovieHubCard(movie) { onMovieClick(movie.id, movie.mediaType) }
+            }
+        }
+    }
+}
+
+@Composable
+fun WatchlistSection(
+    viewModel: IptvViewModel,
+    onMovieClick: (Int, String) -> Unit
+) {
+    if (viewModel.watchlistMovies.isEmpty()) return
+
+    Column(modifier = Modifier.padding(vertical = 12.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    Icons.Default.Bookmarks,
+                    contentDescription = null,
+                    tint = AccentCyan,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Column {
+                    Text(
+                        text = stringResource(R.string.watchlist).uppercase(),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = TextSecondary,
+                        letterSpacing = 2.sp
+                    )
+                    Text(
+                        text = stringResource(R.string.results_count, viewModel.watchlistMovies.size),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = AccentCyan
+                    )
+                }
+            }
+        }
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(viewModel.watchlistMovies, key = { "${it.id}-${it.mediaType}" }) { movie ->
+                Box {
+                    MovieHubCard(movie) { onMovieClick(movie.id, movie.mediaType) }
+                    // Remove button
+                    Surface(
+                        onClick = { viewModel.removeFromWatchlist(movie.id, movie.mediaType) },
+                        color = Color.Black.copy(alpha = 0.7f),
+                        shape = CircleShape,
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(6.dp)
+                            .size(24.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = stringResource(R.string.close),
+                            tint = Color.White,
+                            modifier = Modifier.padding(4.dp)
+                        )
+                    }
+                }
             }
         }
     }
