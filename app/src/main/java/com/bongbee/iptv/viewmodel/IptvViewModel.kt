@@ -93,14 +93,19 @@ class IptvViewModel : ViewModel() {
             conn.readTimeout = 4000
             conn.setRequestProperty("User-Agent", "Mozilla/5.0")
             conn.instanceFollowRedirects = true
-            // For HLS streams, just check we can connect and get some data
             val code = conn.responseCode
             if (code == 200) {
-                // Read a small chunk to verify it's a real stream
-                val buffer = ByteArray(512)
+                val buffer = ByteArray(1024)
                 val bytesRead = conn.inputStream.use { it.read(buffer) }
                 conn.disconnect()
-                bytesRead > 0
+                if (bytesRead <= 0) return false
+                // For HLS (.m3u8), verify it contains valid playlist markers
+                if (url.contains(".m3u8", ignoreCase = true)) {
+                    val content = String(buffer, 0, bytesRead)
+                    content.contains("#EXT", ignoreCase = true)
+                } else {
+                    true
+                }
             } else {
                 conn.disconnect()
                 false
@@ -762,7 +767,12 @@ class IptvViewModel : ViewModel() {
         return Pair(movies.distinctBy { it.id }, totalResults)
     }
 
+    /** Whether the current channel list is a Khmer/Cambodia source */
+    private var isKhmerSource = false
+
     fun fetchChannels(url: String) {
+        isKhmerSource = url.contains("/kh.m3u") || url.contains("/khm.m3u") ||
+                url.contains("cambodia", ignoreCase = true) || url.contains("khmer", ignoreCase = true)
         viewModelScope.launch {
             isLoading = true
             try {
@@ -770,12 +780,50 @@ class IptvViewModel : ViewModel() {
                     URL(url).readText()
                 }
                 channels = parseM3u(m3uText)
+                // Auto-enrich Khmer channels with fresh MekongTV URLs
+                if (isKhmerSource) {
+                    enrichChannelsWithMekongTv()
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 channels = emptyList()
             } finally {
                 isLoading = false
             }
+        }
+    }
+
+    /**
+     * For each Khmer channel that has a MekongTV mapping, resolve a fresh
+     * stream URL and put it FIRST — replacing broken iptv-org URLs.
+     */
+    private fun enrichChannelsWithMekongTv() {
+        viewModelScope.launch {
+            val enriched = channels.toMutableList()
+            val resolveJobs = enriched.mapIndexed { index, channel ->
+                val slug = mekongTvSlugMap.entries.firstOrNull { (key, _) ->
+                    channel.name.contains(key, ignoreCase = true) ||
+                    key.contains(channel.name.replace(Regex("\\s*\\(.*\\)"), "").trim(), ignoreCase = true)
+                }?.value
+
+                if (slug != null) {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val mekongUrl = resolveMekongTvUrl(channel.name)
+                        if (mekongUrl != null) {
+                            // Put MekongTV URL first, keep old URLs as fallback
+                            val newUrls = listOf(mekongUrl) + channel.urls.filter {
+                                !it.contains("mekongtv.net")
+                            }
+                            enriched[index] = channel.copy(urls = newUrls)
+                            android.util.Log.d("IptvVM", "Enriched ${channel.name} with MekongTV URL")
+                        }
+                    }
+                } else null
+            }.filterNotNull()
+
+            // Wait for all resolves to complete
+            resolveJobs.forEach { it.join() }
+            channels = enriched.toList()
         }
     }
 
