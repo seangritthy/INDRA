@@ -1,0 +1,131 @@
+<resources>
+    <string name="app_name">INDRA</string>
+    <string name="tab_categories">Categories</string>
+    <string name="tab_countries">Countries</string>
+    <string name="tab_regions">Regions</string>
+    <string name="tab_languages">Languages</string>
+    <string name="no_channels">No channels found.</string>
+    <string name="unknown_channel">Unknown Channel</string>
+    <string name="close">Close</string>
+    <string name="epg_metadata">EPG &amp; Metadata</string>
+    <string name="network">Network</string>
+    <string name="country">Country</string>
+    <string name="website">Website</string>
+    <string name="categories_label">Categories</string>
+    <string name="no_metadata">No extended metadata found for ID: %s</string>
+    <string name="epg_sources">EPG Sources</string>
+    <string name="source">Source: %s</string>
+    <string name="ch_count">%d Ch.</string>
+    <string name="unknown">Unknown</string>
+    <string name="na">N/A</string>
+    <string name="decen_tv">INDRA</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_movies">mvhd</string>
+    <string name="nav_drama">asiadrama</string>
+    <string name="nav_tv">TV</string>
+    <string name="nav_ai">ai</string>
+    <string name="channel_menu">Channel Menu</string>
+    <string name="slide_menu_hint">Slide to see menu</string>
+    <string name="grid_iptv">INDRA</string>
+    <string name="trying_link">Trying link %1$d/%2$d…</string>
+    <string name="web_viewer">Web Viewer</string>
+    <string name="settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="language">Language</string>
+    <string name="movies_site">mvhd.site</string>
+    <string name="drama_site">asiadrama.net</string>
+
+    <string name="theme_skin">Theme Skin</string>
+    <string name="background_skin">Background Skin</string>
+    <string name="about_app">About App</string>
+    <string name="app_version">Version: 1.2.65</string>
+    <string name="created_by">Created by: Rithy</string>
+    <string name="contact">Contact: +85592200060</string>
+    <string name="donate">Donate</string>
+    <string name="aba_bank">ABA Bank Account: 500224792</string>
+
+    <string name="ai_services">AI Services</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search movies or actors…</string>
+
+    <string name="appearance">Appearance</string>
+    <string name="dark_mode_desc">Switch between light and dark themes</string>
+    <string name="general">General</string>
+    <string name="app_language">App Language</string>
+    <string name="auto_next">Auto Play Next</string>
+    <string name="auto_next_desc">Play next channel automatically on error</string>
+    <string name="updates">Updates</string>
+    <string name="check_updates">Check for Updates</string>
+    <string name="current_version">Current version: v%s</string>
+    <string name="community_love">Built with ❤️ for the community</string>
+    <string name="donation_desc">Support the developer with a donation\n(Tap to open ABA, Long press to share)</string>
+
+    <string name="overview_label">OVERVIEW</string>
+    <string name="indra_streaming">INDRA Streaming</string>
+    <string name="series_cast">SERIES CAST</string>
+    <string name="facts">FACTS</string>
+    <string name="keywords">KEYWORDS</string>
+    <string name="select_server">SELECT SERVER</string>
+    <string name="season_label">SEASON</string>
+    <string name="episodes_label">EPISODES</string>
+    <string name="related_movies">YOU MIGHT ALSO LIKE</string>
+
+    <string name="fact_status">Status</string>
+    <string name="fact_network">Network</string>
+    <string name="fact_type">Type</string>
+    <string name="fact_lang">Original Language</string>
+    <string name="type_scripted">Scripted</string>
+    <string name="type_movie">Movie</string>
+
+    <string name="update_required">Critical Update Required</string>
+    <string name="update_available">New Version Available</string>
+    <string name="update_desc">A new version of INDRA (%s) is available.</string>
+    <string name="update_mandatory">This update is mandatory to continue using the app.</string>
+    <string name="update_now">Update Now</string>
+    <string name="update_later">Later</string>
+    <string name="drama_center">Drama Center</string>
+
+    <string name="watch_now">Watch Now</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="direct_stream_unavailable">Direct stream unavailable</string>
+    <string name="open_web_player">Open in Web Player</string>
+
+    <string name="movie_hub">Movie Hub</string>
+    <string name="search_tmdb">Search TMDB data…</string>
+    <string name="sector_info">Sector %1$d of %2$d</string>
+    <string name="results_count">%d Results</string>
+    <string name="no_data_tmdb">No data found in TMDB databanks</string>
+    <string name="prev_sector">PREV SECTOR</string>
+    <string name="next_sector">NEXT SECTOR</string>
+    <string name="series">SERIES</string>
+
+    <string name="featured_channels">FEATURED CHANNELS</string>
+    <string name="trending_movies">TRENDING MOVIES</string>
+    <string name="popular_movies">POPULAR MOVIES</string>
+    <string name="top_rated_movies">TOP RATED MOVIES</string>
+    <string name="upcoming_movies">UPCOMING MOVIES</string>
+    <string name="trending_tv">TRENDING TV SHOWS</string>
+    <string name="popular_tv">POPULAR TV SHOWS</string>
+    <string name="top_rated_tv">TOP RATED TV SHOWS</string>
+    <string name="on_the_air">ON THE AIR</string>
+    <string name="by_country">BY COUNTRY</string>
+    <string name="by_region">BY REGION</string>
+    <string name="by_language">BY LANGUAGE</string>
+    <string name="exclusive">EXCLUSIVE</string>
+    <string name="web_portal">WEB PORTAL</string>
+    <string name="streaming_badge">STREAMING</string>
+    <string name="channels_count_label">%d CHANNELS</string>
+
+    <string name="personalization">Personalization</string>
+    <string name="theme_desc">Customize the look and feel of INDRA</string>
+    <string name="language_desc">Choose your preferred language</string>
+    <string name="support_dev">Support Development</string>
+    <string name="donation_title">Premium Support</string>
+    <string name="check_updates_desc">Stay up to date with the latest features</string>
+
+    <string name="total_movies">Total Movies: %d</string>
+    <string name="total_tv_shows">Total TV Shows: %d</string>
+    <string name="total_all">Total All Items: %d</string>
+</resources>

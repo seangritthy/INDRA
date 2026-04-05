@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>latest_version_code</key>
+        <value>1</value>
+    </entry>
+    <entry>
+        <key>force_update_required</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>update_url</key>
+        <value>https://example.com/INDRAiptv.apk</value>
+    </entry>
+</defaultsMap>
