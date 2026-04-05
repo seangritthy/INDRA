@@ -58,7 +58,10 @@ fun PlayerScreen(channel: Channel, viewModel: IptvViewModel, onClose: () -> Unit
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
-    val currentUrl = remember(channel) { channel.urls.firstOrNull() ?: "" }
+    // Track which URL index we're currently trying
+    var currentUrlIndex by remember { mutableIntStateOf(0) }
+    var currentUrl by remember { mutableStateOf(channel.urls.firstOrNull() ?: "") }
+    var isTryingFallback by remember { mutableStateOf(false) }
 
     val dataSourceFactory = remember {
         DefaultHttpDataSource.Factory()
@@ -70,6 +73,32 @@ fun PlayerScreen(channel: Channel, viewModel: IptvViewModel, onClose: () -> Unit
         ExoPlayer.Builder(context).build().apply {
             playWhenReady = true
         }
+    }
+
+    // Auto-fallback: try next URL on error, then MekongTV
+    LaunchedEffect(exoPlayer) {
+        val listener = object : androidx.media3.common.Player.Listener {
+            override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
+                android.util.Log.w("Player", "Stream error on URL #$currentUrlIndex: ${error.message}")
+                val nextIndex = currentUrlIndex + 1
+                if (nextIndex < channel.urls.size) {
+                    // Try next URL in the channel's URL list
+                    currentUrlIndex = nextIndex
+                    currentUrl = channel.urls[nextIndex]
+                } else if (!isTryingFallback) {
+                    // All URLs failed — try MekongTV fallback
+                    isTryingFallback = true
+                    coroutineScope.launch {
+                        val fallbackUrl = viewModel.resolveMekongTvUrl(channel.name)
+                        if (fallbackUrl != null) {
+                            android.util.Log.d("Player", "MekongTV fallback: $fallbackUrl")
+                            currentUrl = fallbackUrl
+                        }
+                    }
+                }
+            }
+        }
+        exoPlayer.addListener(listener)
     }
 
     LaunchedEffect(currentUrl) {

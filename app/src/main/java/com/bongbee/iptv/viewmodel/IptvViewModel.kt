@@ -110,6 +110,69 @@ class IptvViewModel : ViewModel() {
         }
     }
 
+    // ── MekongTV Fallback Resolver ──────────────────────────────────────
+    // Maps known Khmer channel names to mekongtv.net slugs
+    private val mekongTvSlugMap = mapOf(
+        "TVK" to "tvk",
+        "TV5 Cambodia" to "tv5",
+        "TV5" to "tv5",
+        "Bayon TV" to "bayontv",
+        "BayonTV" to "bayontv",
+        "BTV News" to "bayontv1",
+        "BTV" to "bayontv1",
+        "Apsara TV11" to "apsaratv",
+        "Apsara TV" to "apsaratv",
+        "ApsaraTV" to "apsaratv",
+        "Fresh News" to "freshnew",
+        "FreshNews" to "freshnew",
+        "MekongNet" to "mekongnet",
+        "WIKI TV" to "wikitv",
+        "CTV8 HD" to "ctv8",
+        "CTV8" to "ctv8",
+        "TV3" to "tv3",
+        "MyTV" to "mytv",
+        "Hang Meas HDTV" to "hangmeas",
+        "Hang Meas" to "hangmeas",
+        "CTN" to "ctn",
+        "CNC" to "cnc",
+        "PNN" to "pnn",
+        "SEA TV" to "seatv",
+        "TV9" to "tv9",
+        "Komsan TV" to "komsantv",
+    )
+
+    /**
+     * Resolve a fresh MekongTV stream URL for a given channel name.
+     * MekongTV uses expiring auth tokens so we must fetch at play-time.
+     */
+    suspend fun resolveMekongTvUrl(channelName: String): String? = withContext(Dispatchers.IO) {
+        // Find matching slug (fuzzy match)
+        val slug = mekongTvSlugMap.entries.firstOrNull { (key, _) ->
+            channelName.contains(key, ignoreCase = true) || key.contains(channelName, ignoreCase = true)
+        }?.value ?: return@withContext null
+
+        try {
+            val pageUrl = "https://mekongtv.net/channels/$slug"
+            val conn = URL(pageUrl).openConnection() as HttpURLConnection
+            conn.connectTimeout = 8000
+            conn.readTimeout = 8000
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0")
+            val html = conn.inputStream.bufferedReader().use { it.readText() }
+            conn.disconnect()
+
+            // Extract stream URL: src="https://stream.mekongtv.net/..."
+            val regex = """src="(https://stream\.mekongtv\.net/[^"]+)"""".toRegex()
+            val match = regex.find(html)
+            val streamUrl = match?.groupValues?.get(1)
+                ?.replace("&amp;", "&") // decode HTML entities
+
+            streamUrl
+        } catch (e: Exception) {
+            android.util.Log.w("IptvVM", "MekongTV resolve failed for $slug: ${e.message}")
+            null
+        }
+    }
+
     val categories = listOf(
         Category("General", 2371, "https://iptv-org.github.io/iptv/categories/general.m3u", videoResName = "cat_general"),
         Category("Entertainment", 642, "https://iptv-org.github.io/iptv/categories/entertainment.m3u", videoResName = "cat_entertainment"),
