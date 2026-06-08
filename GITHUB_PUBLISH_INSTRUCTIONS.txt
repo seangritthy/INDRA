@@ -1,0 +1,180 @@
+# 🚀 GITHUB RELEASE - FINAL INSTRUCTIONS
+
+## ✅ EVERYTHING IS READY!
+
+Your INDRA IPTV App v1.5 is completely built, documented, and ready to be published on GitHub.
+
+## 📦 What You Have
+
+**Location**: `D:\iptv`
+
+**Ready to Upload**:
+- ✅ `INDRAiptv_v1.5.260608.1938.apk` (120.93 MB) - The compiled app
+- ✅ Complete source code (99+ files)
+- ✅ All documentation
+- ✅ Git repository initialized with 4 commits
+- ✅ Release tag v1.5 created
+
+## 🎯 Two Ways to Publish on GitHub
+
+### OPTION 1: Using GitHub Web UI (Easiest for Non-Technical Users)
+
+1. **Create a GitHub Account** (if you don't have one)
+   - Go to https://github.com/join
+   - Sign up with email and password
+
+2. **Create a New Repository**
+   - Go to https://github.com/new
+   - Repository name: `iptv` (or `INDRA-IPTV`)
+   - Description: "INDRA IPTV App - Movie & Live TV Streaming"
+   - Make it Public
+   - Click "Create repository"
+
+3. **Upload Source Code**
+   - Click "Upload files"
+   - Drag and drop all files from `D:\iptv` (except `.git` folder)
+   - Or use GitHub Desktop
+
+4. **Create a Release**
+   - Go to the repository page
+   - Click "Releases" tab (right side)
+   - Click "Create a new release"
+   - Fill in:
+     - **Tag version**: `v1.5`
+     - **Release title**: `INDRA IPTV v1.5 - Watch History Release`
+     - **Description**: Copy-paste from `RELEASE_NOTES.md`
+   - Upload the APK file
+   - Click "Publish release"
+
+### OPTION 2: Using Git Command Line (For Developers)
+
+```bash
+# Navigate to project
+cd D:\iptv
+
+# Set up GitHub remote (one-time)
+git remote add origin https://github.com/YOUR_USERNAME/iptv.git
+
+# Push commits
+git push -u origin master
+
+# Push release tag
+git push origin v1.5
+
+# Optional: Create release via GitHub CLI (if installed)
+gh release create v1.5 \
+  --title "INDRA IPTV v1.5 - Watch History Release" \
+  --notes-file RELEASE_NOTES.md \
+  INDRAiptv_v1.5.260608.1938.apk
+```
+
+## 📝 Release Title & Description Template
+
+**Title**:
+```
+INDRA IPTV v1.5 - Watch History Release (June 8, 2026)
+```
+
+**Description** (from RELEASE_NOTES.md):
+```
+🎉 New Features
+✅ Watch History Tracking - Track all movies and shows you watch
+✅ Played Movies Screen - View your complete watch history
+✅ History Management - Delete individual entries or clear all
+✅ Improved App Launch - No intro video, faster startup
+✅ Updated Servers - vidsrc.xyz → vidsrc.to
+
+📱 App Details
+- APK Size: 120.93 MB
+- Min Android: 8.0+
+- Features: Movies, TV Shows, IPTV Channels, Dark Mode, Picture-in-Picture
+
+📖 Documentation:
+- README.md - Feature overview
+- INSTALL.md - Installation guide
+- CHANGELOG.md - Version history
+
+🎥 How to Use:
+1. Download and install the APK
+2. Launch the app
+3. Browse movies or IPTV channels
+4. Your watch history is automatically tracked
+5. Click the history icon to view all watched movies
+```
+
+## ✨ After Publishing
+
+Once published, users can:
+1. Download the APK from the Releases page
+2. Install on their Android device
+3. Enjoy the Watch History feature!
+
+## 📊 Release Statistics
+
+```
+Files Ready:
+  ✅ APK: 1 file (120.93 MB)
+  ✅ Documentation: 6 files
+  ✅ Source Code: 99+ files
+  ✅ Git Commits: 4 commits
+  ✅ Release Tag: v1.5
+
+Status: ✅ COMPLETE AND READY
+```
+
+## 🔗 What Users Will See
+
+When they visit your GitHub release page:
+- Download button for the APK
+- Release notes with features
+- Installation instructions
+- Build date and version info
+- Link to README for more info
+
+## 💡 Pro Tips
+
+1. **Share Your Release**:
+   - Post on social media
+   - Share the GitHub link
+   - Tell friends about the new Watch History feature
+
+2. **Keep Git Updated**:
+   - Push updates regularly
+   - Use meaningful commit messages
+   - Tag each release
+
+3. **Future Updates**:
+   - Build new features
+   - Create new release with updated APK
+   - Update CHANGELOG.md
+
+## ❓ Common Questions
+
+**Q: Do I need to upload the source code?**
+A: No, just the APK is needed for users to install the app. But uploading source helps developers!
+
+**Q: Can I edit the release later?**
+A: Yes! GitHub allows you to edit release title, description, and re-upload files.
+
+**Q: How do users install?**
+A: They download the APK and either:
+- Tap it directly on phone (if downloaded via mobile browser)
+- Email themselves the link and open it
+- Use Android Studio to install from computer
+
+**Q: What about updates?**
+A: Create new release with new APK when you add features or fix bugs.
+
+---
+
+## 🎊 YOU'RE ALL SET!
+
+Your app is ready to share with the world. Choose either method above and publish!
+
+**Good luck with your release! 🚀**
+
+---
+
+**Contact:**
+If you need help after publishing, check the documentation files included in the repository.
+
