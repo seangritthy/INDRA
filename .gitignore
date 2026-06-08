@@ -1,0 +1,15 @@
+*.apk
+build/
+.gradle/
+.idea/
+*.iml
+local.properties
+*.class
+*.jar
+*.so
+.DS_Store
+*.dex
+.classpath
+.project
+.settings/
+

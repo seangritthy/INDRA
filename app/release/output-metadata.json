@@ -1,0 +1,37 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.bongbee.iptv",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 29585260,
+      "versionName": "1.2.260402.1440",
+      "outputFile": "INDRAiptv_v1.2.260402.1440.apk"
+    }
+  ],
+  "elementType": "File",
+  "baselineProfiles": [
+    {
+      "minApi": 28,
+      "maxApi": 30,
+      "baselineProfiles": [
+        "baselineProfiles/1/INDRAiptv_v1.2.260402.1440.dm"
+      ]
+    },
+    {
+      "minApi": 31,
+      "maxApi": 2147483647,
+      "baselineProfiles": [
+        "baselineProfiles/0/INDRAiptv_v1.2.260402.1440.dm"
+      ]
+    }
+  ],
+  "minSdkVersionForDexing": 26
+}

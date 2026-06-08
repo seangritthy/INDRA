@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ឥន្ទដ្រា អាយភីធីវី (Indra IPTV)</string>
+    <string name="tab_categories">ប្រភេទ</string>
+    <string name="tab_countries">ប្រទេស</string>
+    <string name="tab_regions">តំបន់</string>
+    <string name="tab_languages">ភាសា</string>
+    <string name="no_channels">រកមិនឃើញប៉ុស្តិ៍ទេ។</string>
+    <string name="unknown_channel">ប៉ុស្តិ៍មិនស្គាល់</string>
+    <string name="close">បិទ</string>
+    <string name="epg_metadata">មគ្គុទ្ទេសក៍ និងទិន្នន័យ</string>
+    <string name="network">បណ្តាញ</string>
+    <string name="country">ប្រទេស</string>
+    <string name="website">គេហទំព័រ</string>
+    <string name="categories_label">ប្រភេទ</string>
+    <string name="no_metadata">រកមិនឃើញទិន្នន័យបន្ថែមសម្រាប់ ID៖ %s</string>
+    <string name="epg_sources">ប្រភពមគ្គុទ្ទេសក៍</string>
+    <string name="source">ប្រភព៖ %s</string>
+    <string name="ch_count">%d ប៉ុស្តិ៍</string>
+    <string name="unknown">មិនស្គាល់</string>
+    <string name="na">មិនមាន</string>
+    <string name="decen_tv">ឥន្ទដ្រា អាយភីធីវី</string>
+    <string name="previous">មុន</string>
+    <string name="next">បន្ទាប់</string>
+    <string name="nav_home">ទំព័រដើម</string>
+    <string name="nav_movies">mvhd.site</string>
+    <string name="nav_drama">asiadrama.net</string>
+    <string name="nav_tv">ទូរទស្សន៍</string>
+    <string name="nav_ai">Gemini AI</string>
+    <string name="channel_menu">បញ្ជីប៉ុស្តិ៍</string>
+    <string name="slide_menu_hint">អូសដើម្បីមើលបញ្ជី</string>
+    <string name="grid_iptv">ត្រឡប់ទៅក្រឡា</string>
+    <string name="trying_link">កំពុងសាកល្បងតំណ %1$d/%2$d…</string>
+    <string name="web_viewer">កម្មវិធីមើលគេហទំព័រ</string>
+    <string name="settings">ការកំណត់</string>
+    <string name="dark_mode">ងងឹត / ភ្លឺ</string>
+    <string name="language">ភាសា</string>
+    <string name="movies_site">mvhd.site</string>
+    <string name="drama_site">asiadrama.net</string>
+
+    <string name="theme_skin">ពណ៌ទម្រង់</string>
+    <string name="background_skin">ផ្ទៃខាងក្រោយ</string>
+    <string name="about_app">អំពីកម្មវិធី</string>
+    <string name="app_version">ជំនាន់: 1.2.65</string>
+    <string name="created_by">បង្កើតដោយ: Rithy</string>
+    <string name="contact">ទំនាក់ទំនង: +85592200060</string>
+    <string name="donate">បរិច្ចាគ</string>
+    <string name="aba_bank">គណនីធនាគារ ABA: 500224792</string>
+
+    <string name="ai_services">Gemini AI</string>
+    <string name="search">ស្វែងរក</string>
+    <string name="search_hint">ស្វែងរកភាពយន្ត ឬតួសម្តែង…</string>
+
+    <string name="appearance">រូបរាង</string>
+    <string name="dark_mode_desc">ប្តូររវាងរូបរាងភ្លឺ និងងងឹត</string>
+    <string name="general">ទូទៅ</string>
+    <string name="app_language">ភាសាកម្មវិធី</string>
+    <string name="auto_next">លេងបន្ទាប់ដោយស្វ័យប្រវត្តិ</string>
+    <string name="auto_next_desc">លេងប៉ុស្តិ៍បន្ទាប់ដោយស្វ័យប្រវត្តិពេលមានកំហុស</string>
+    <string name="updates">ការធ្វើបច្ចុប្បន្នភាព</string>
+    <string name="check_updates">ពិនិត្យមើលការធ្វើបច្ចុប្បន្នភាព</string>
+    <string name="current_version">កំណែបច្ចុប្បន្ន៖ v%s</string>
+    <string name="community_love">បង្កើតឡើងដោយ ❤️ សម្រាប់សហគមន៍</string>
+    <string name="donation_desc">គាំទ្រអ្នកអភិវឌ្ឍន៍តាមរយៈការបរិច្ចាគ\n(ចុចដើម្បីបើក ABA, ចុចឱ្យជាប់ដើម្បីចែករំលែក)</string>
+
+    <string name="overview_label">ទិដ្ឋភាពទូទៅ</string>
+    <string name="indra_streaming">ការផ្សាយផ្ទាល់ INDRA</string>
+    <string name="series_cast">តួសម្តែង</string>
+    <string name="facts">ព័ត៌មានលម្អិត</string>
+    <string name="keywords">ពាក្យគន្លឹះ</string>
+    <string name="select_server">ជ្រើសរើសម៉ាស៊ីនមេ</string>
+    <string name="season_label">រដូវកាល</string>
+    <string name="episodes_label">ភាគ</string>
+    <string name="related_movies">អ្នកអាចនឹងចូលចិត្ត</string>
+
+    <string name="fact_status">ស្ថានភាព</string>
+    <string name="fact_network">បណ្តាញ</string>
+    <string name="fact_type">ប្រភេទ</string>
+    <string name="fact_lang">ភាសាដើម</string>
+    <string name="type_scripted">រឿងភាគ</string>
+    <string name="type_movie">ភាពយន្ត</string>
+
+    <string name="update_required">ចាំបាច់ត្រូវធ្វើបច្ចុប្បន្នភាព</string>
+    <string name="update_available">មានកំណែថ្មី</string>
+    <string name="update_desc">កំណែថ្មីនៃ INDRA (%s) គឺមានហើយ។</string>
+    <string name="update_mandatory">ការធ្វើបច្ចុប្បន្នភាពនេះគឺចាំបាច់ដើម្បីបន្តប្រើប្រាស់កម្មវិធី។</string>
+    <string name="update_now">ធ្វើបច្ចុប្បន្នភាពឥឡូវនេះ</string>
+    <string name="update_later">ពេលក្រោយ</string>
+    <string name="drama_center">មជ្ឈមណ្ឌលរឿងភាគ</string>
+
+    <string name="watch_now">មើលឥឡូវនេះ</string>
+    <string name="watchlist">បញ្ជីតាមដាន</string>
+    <string name="direct_stream_unavailable">មិនអាចចាក់បានទេ</string>
+    <string name="open_web_player">បើកកម្មវិធីចាក់តាមគេហទំព័រ</string>
+
+    <string name="movie_hub">មជ្ឈមណ្ឌលភាពយន្ត</string>
+    <string name="search_tmdb">ស្វែងរកទិន្នន័យ TMDB…</string>
+    <string name="sector_info">ផ្នែកទី %1$d នៃ %2$d</string>
+    <string name="results_count">លទ្ធផល៖ %d</string>
+    <string name="no_data_tmdb">រកមិនឃើញទិន្នន័យក្នុងប្រព័ន្ធទិន្នន័យ TMDB ទេ</string>
+    <string name="prev_sector">ផ្នែកមុន</string>
+    <string name="next_sector">ផ្នែកបន្ទាប់</string>
+    <string name="series">រឿងភាគ</string>
+
+    <string name="featured_channels">ប៉ុស្តិ៍ពេញនិយម</string>
+    <string name="trending_movies">ភាពយន្តកំពុងពេញនិយម</string>
+    <string name="popular_movies">ភាពយន្តល្បីៗ</string>
+    <string name="top_rated_movies">ភាពយន្តពិន្ទុខ្ពស់</string>
+    <string name="upcoming_movies">ភាពយន្តជិតមកដល់</string>
+    <string name="trending_tv">រឿងភាគកំពុងពេញនិយម</string>
+    <string name="popular_tv">រឿងភាគល្បីៗ</string>
+    <string name="top_rated_tv">រឿងភាគពិន្ទុខ្ពស់</string>
+    <string name="on_the_air">កំពុងចាក់ផ្សាយ</string>
+    <string name="by_country">តាមប្រទេស</string>
+    <string name="by_region">តាមតំបន់</string>
+    <string name="by_language">តាមភាសា</string>
+    <string name="exclusive">ផ្តាច់មុខ</string>
+    <string name="web_portal">គេហទំព័រ</string>
+    <string name="streaming_badge">ការផ្សាយផ្ទាល់</string>
+    <string name="channels_count_label">%d ប៉ុស្តិ៍</string>
+
+    <string name="personalization">ការកំណត់ផ្ទាល់ខ្លួន</string>
+    <string name="theme_desc">ប្ដូររូបរាង INDRA តាមតម្រូវការ</string>
+    <string name="language_desc">ជ្រើសរើសភាសាដែលអ្នកពេញចិត្ត</string>
+    <string name="support_dev">គាំទ្រអ្នកអភិវឌ្ឍន៍</string>
+    <string name="donation_title">ការគាំទ្រពិសេស</string>
+    <string name="check_updates_desc">បន្តទទួលបានមុខងារចុងក្រោយបង្អស់</string>
+</resources>
