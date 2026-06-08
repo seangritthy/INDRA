@@ -1,0 +1,135 @@
+🚀 GITHUB SETUP & RELEASE - MANUAL STEPS
+
+If the automated script doesn't work, follow these manual steps:
+
+═══════════════════════════════════════════════════════════════════
+
+STEP 1: Create GitHub Repository
+═══════════════════════════════════════════════════════════════════
+
+1. Go to https://github.com/new
+2. Fill in:
+   - Repository name: INDRA
+   - Description: INDRA IPTV App - Movie and Live TV Streaming with Watch History
+   - Public (recommended)
+3. Click "Create repository"
+4. Copy the repository URL (looks like: https://github.com/YOUR_USERNAME/INDRA.git)
+
+═══════════════════════════════════════════════════════════════════
+
+STEP 2: Set Up Git Authentication (IMPORTANT!)
+═══════════════════════════════════════════════════════════════════
+
+Choose ONE of these methods:
+
+OPTION A: Personal Access Token (Recommended)
+─────────────────────────────────────────────
+1. Go to https://github.com/settings/tokens
+2. Click "Generate new token" → "Generate new token (classic)"
+3. Check: "repo" (full control of private repositories)
+4. Generate and copy the token (save it somewhere safe!)
+5. When git asks for password, paste the token
+
+OPTION B: SSH Key (More Secure)
+────────────────────────────────
+1. Run in PowerShell:
+   ssh-keygen -t ed25519 -C "your_email@example.com"
+
+2. Go to https://github.com/settings/ssh
+3. Click "New SSH key"
+4. Paste your public key from:
+   C:\Users\YourUsername\.ssh\id_ed25519.pub
+5. Click "Add SSH key"
+
+═══════════════════════════════════════════════════════════════════
+
+STEP 3: Run These Git Commands
+═══════════════════════════════════════════════════════════════════
+
+Open PowerShell and run:
+
+# Navigate to project
+cd D:\iptv
+
+# Set your git identity (one-time setup)
+git config --global user.name "Your Name"
+git config --global user.email "your.email@gmail.com"
+
+# Add GitHub repository as remote
+git remote add origin https://github.com/YOUR_USERNAME/INDRA.git
+
+# Replace YOUR_USERNAME with your actual GitHub username!
+
+# Push all commits
+git push -u origin master
+
+# Push the release tag
+git push origin v1.5
+
+═══════════════════════════════════════════════════════════════════
+
+STEP 4: Create Release on GitHub (After Pushing)
+═════════════════════════════════════════════════
+
+1. Go to: https://github.com/YOUR_USERNAME/INDRA/releases
+
+2. Click "Create a new release"
+
+3. Fill in:
+   - Tag: v1.5 (should be pre-filled)
+   - Release title: INDRA IPTV v1.5 - Watch History Release
+
+4. For Description, copy-paste from RELEASE_NOTES.md:
+
+   🎉 New Features
+   ✅ Watch History Tracking - Track all movies and shows you watch
+   ✅ Played Movies Screen - View your complete watch history
+   ✅ History Management - Delete individual entries or clear all
+   ✅ Improved App Launch - No intro video, faster startup
+   ✅ Updated Servers - vidsrc.xyz → vidsrc.to
+
+   📱 App Details
+   - APK Size: 120.93 MB
+   - Min Android: 8.0+
+   - Features: Movies, TV Shows, IPTV Channels, Dark Mode, Picture-in-Picture
+
+5. Click "Attach binaries" or "Upload files"
+
+6. Drag and drop: INDRAiptv_v1.5.260608.1938.apk
+
+7. Click "Publish release"
+
+═════════════════════════════════════════════════════════════════════
+
+STEP 5: Share Your Release!
+═════════════════════════════
+
+Your app is now on GitHub! Share the link:
+https://github.com/YOUR_USERNAME/INDRA/releases/tag/v1.5
+
+Users can download the APK directly from the release page.
+
+═════════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING
+═════════════════════════════════════════════════════════════════════
+
+Problem: "fatal: not a git repository"
+Solution: Make sure you're in D:\iptv directory
+Command: cd D:\iptv
+
+Problem: "Permission denied" or "401 Unauthorized"
+Solution: Check your authentication token/SSH key
+- Verify PAT is valid: https://github.com/settings/tokens
+- Verify SSH key is added: https://github.com/settings/ssh
+
+Problem: "Repository already exists"
+Solution: Use a different repository name or delete the existing one
+
+Problem: "Remote origin already exists"
+Solution: Run: git remote set-url origin https://github.com/YOUR_USERNAME/INDRA.git
+
+═════════════════════════════════════════════════════════════════════
+
+✨ THAT'S IT! Your app is now on GitHub! ✨
+
